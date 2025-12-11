@@ -226,11 +226,11 @@ export default function Home() {
           </h1>
 
           {/* Tool Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 items-stretch">
             {tools.map((tool) => (
-              <div key={tool.href} className="relative group h-[200px]">
+              <div key={tool.href} className="relative group h-full">
                 {/* Orange shadow layer */}
-                <div className="absolute inset-0 bg-[#F67E62] rounded-xl translate-x-2 translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+                <div className="absolute inset-0 bg-[#F67E62] rounded-lg sm:rounded-xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
                 {/* Main card */}
                 <Link
                   href={tool.href}
@@ -240,15 +240,15 @@ export default function Home() {
                       tool_href: tool.href,
                     });
                   }}
-                  className="relative flex flex-col h-full bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-xl p-6 text-left transition-all duration-200"
+                  className="relative flex flex-col h-full bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-lg sm:rounded-xl p-3 sm:p-6 text-left transition-all duration-200"
                 >
-                  <div className="mb-4 text-[#37352F] group-hover:text-white transition-colors">
-                    <ToolIcon type={tool.icon} className="w-8 h-8" />
+                  <div className="mb-2 sm:mb-4 text-[#37352F] group-hover:text-white transition-colors">
+                    <ToolIcon type={tool.icon} className="w-6 h-6 sm:w-8 sm:h-8" />
                   </div>
-                  <h3 className="text-lg font-semibold text-[#37352F] group-hover:text-white mb-2 transition-colors">
+                  <h3 className="text-sm sm:text-lg font-semibold text-[#37352F] group-hover:text-white mb-1 sm:mb-2 transition-colors leading-tight">
                     {tool.title}
                   </h3>
-                  <p className="text-sm text-gray-600 group-hover:text-white/90 transition-colors">
+                  <p className="text-xs sm:text-sm text-gray-600 group-hover:text-white/90 transition-colors leading-snug">
                     {tool.description}
                   </p>
                 </Link>
@@ -257,10 +257,10 @@ export default function Home() {
           </div>
 
           {/* Wall of Inspiration - Full Width Card */}
-          <div className="mt-6 sm:mt-8">
+          <div className="mt-3 sm:mt-8">
             <div className="relative group">
               {/* Orange shadow layer */}
-              <div className="absolute inset-0 bg-[#F67E62] rounded-xl translate-x-2 translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+              <div className="absolute inset-0 bg-[#F67E62] rounded-lg sm:rounded-xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
               {/* Main card */}
               <Link
                 href="/wall-of-inspiration"
@@ -270,10 +270,10 @@ export default function Home() {
                     tool_href: "/wall-of-inspiration",
                   });
                 }}
-                className="relative flex items-center justify-center gap-4 bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-xl py-4 px-6 transition-all duration-200"
+                className="relative flex items-center justify-center gap-2 sm:gap-4 bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-lg sm:rounded-xl py-3 px-3 sm:py-4 sm:px-6 transition-all duration-200"
               >
                 <svg
-                  className="w-8 h-8 text-[#37352F] group-hover:text-white transition-colors flex-shrink-0"
+                  className="w-6 h-6 sm:w-8 sm:h-8 text-[#37352F] group-hover:text-white transition-colors flex-shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -284,10 +284,10 @@ export default function Home() {
                   <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 <div className="text-left">
-                  <h3 className="text-lg font-semibold text-[#37352F] group-hover:text-white transition-colors">
+                  <h3 className="text-sm sm:text-lg font-semibold text-[#37352F] group-hover:text-white transition-colors">
                     Wall of Inspiration
                   </h3>
-                  <p className="text-sm text-gray-600 group-hover:text-white/90 transition-colors">
+                  <p className="text-xs sm:text-sm text-gray-600 group-hover:text-white/90 transition-colors">
                     Random things that might inspire you to quit/detox
                   </p>
                 </div>
@@ -332,7 +332,7 @@ export default function Home() {
             </div>
 
             <p>
-            People loved it. In total, we generated over $20k from this coffee business.
+            People found it useful. In total, we generated over $20k from this coffee business.
             </p>
 
             <p>
@@ -422,6 +422,17 @@ export default function Home() {
               width={200}
               height={60}
               className="h-auto w-[150px] sm:w-[200px]"
+            />
+          </div>
+
+          {/* Archived Collection Image */}
+          <div className="mt-12 flex justify-center">
+            <Image
+              src="/archived2.png"
+              alt="Jitterliss Archived Collection 2023-2025"
+              width={900}
+              height={600}
+              className="w-full h-auto rounded-xl"
             />
           </div>
 
