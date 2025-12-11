@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "jspdf": "^3.0.4",
-    "next": "16.0.3",
+    "next": "^16.0.10",
     "posthog-js": "^1.304.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -22,7 +22,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.0.3",
+    "eslint-config-next": "^16.0.10",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
