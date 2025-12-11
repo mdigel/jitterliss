@@ -1,0 +1,72 @@
+[
+  {
+    "event_name": "quit_calculator_started",
+    "event_description": "User begins the 14-day quit caffeine calculator by adding their first drink",
+    "file_path": "src/app/quitcaffeinecalculator/page.tsx"
+  },
+  {
+    "event_name": "quit_calculator_completed",
+    "event_description": "User completes all steps of the quit calculator and generates their PDF plan",
+    "file_path": "src/app/quitcaffeinecalculator/page.tsx"
+  },
+  {
+    "event_name": "pdf_downloaded",
+    "event_description": "User downloads their personalized caffeine detox PDF plan",
+    "file_path": "src/app/quitcaffeinecalculator/page.tsx"
+  },
+  {
+    "event_name": "halflife_calculator_drink_added",
+    "event_description": "User adds a drink to the caffeine half-life calculator",
+    "file_path": "src/app/caffeinehalflifecalculator/page.tsx"
+  },
+  {
+    "event_name": "bet_form_submitted",
+    "event_description": "User attempts to submit the accountability bet form (conversion intent)",
+    "file_path": "src/app/bet/page.tsx"
+  },
+  {
+    "event_name": "caffeine_list_searched",
+    "event_description": "User searches for a specific product in the caffeine list",
+    "file_path": "src/app/caffeinelist/page.tsx"
+  },
+  {
+    "event_name": "caffeine_list_filtered",
+    "event_description": "User filters the caffeine list by category",
+    "file_path": "src/app/caffeinelist/page.tsx"
+  },
+  {
+    "event_name": "motivator_tab_switched",
+    "event_description": "User switches between 'Quit' and 'Detox' tabs on the motivators page",
+    "file_path": "src/app/motivators/page.tsx"
+  },
+  {
+    "event_name": "external_product_clicked",
+    "event_description": "User clicks an external affiliate product link (decaf alternatives, supplements)",
+    "file_path": "src/app/quitcaffeinecalculator/page.tsx"
+  },
+  {
+    "event_name": "decaf_benefits_source_clicked",
+    "event_description": "User clicks a research source link on the decaf benefits page",
+    "file_path": "src/app/decaf-benefits/page.tsx"
+  },
+  {
+    "event_name": "orens_coffee_clicked",
+    "event_description": "User clicks through to Oren's Coffee recommendation",
+    "file_path": "src/app/coffee/page.tsx"
+  },
+  {
+    "event_name": "tool_card_clicked",
+    "event_description": "User clicks a tool card on the homepage to navigate to a specific tool",
+    "file_path": "src/app/page.tsx"
+  },
+  {
+    "event_name": "about_section_viewed",
+    "event_description": "User scrolls to and views the About section on the homepage",
+    "file_path": "src/app/page.tsx"
+  },
+  {
+    "event_name": "testimonial_lightbox_opened",
+    "event_description": "User clicks to enlarge a customer testimonial image",
+    "file_path": "src/app/page.tsx"
+  }
+]
