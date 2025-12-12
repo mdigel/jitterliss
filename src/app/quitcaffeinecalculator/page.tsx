@@ -580,6 +580,11 @@ export default function DetoxCalculator() {
                 <button
                   onClick={() => {
                     if (step === 1 || (step === 2 && canProceedToStep2) || (step <= currentStep)) {
+                      posthog.capture("quit_calculator_step_changed", {
+                        from_step: currentStep,
+                        to_step: step,
+                        total_caffeine: totalCaffeine,
+                      });
                       setCurrentStep(step);
                     }
                   }}

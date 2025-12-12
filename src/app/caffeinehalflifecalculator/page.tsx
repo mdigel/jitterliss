@@ -348,6 +348,18 @@ export default function CaffeineMath() {
     // Find max caffeine for chart scaling
     const maxCaffeine = Math.max(...chartData.map((d) => d.caffeine), 100);
 
+    // Track when user views meaningful results (more than default)
+    if (drinks.length > 1 || (drinks.length === 1 && drinks[0].id !== "default-coffee")) {
+      const totalCaffeine = drinks.reduce((sum, d) => sum + d.caffeine, 0);
+      posthog.capture("halflife_calculation_viewed", {
+        total_drinks: drinks.length,
+        total_caffeine_mg: totalCaffeine,
+        caffeine_at_bedtime_mg: Math.round(caffeineAtBedtime),
+        bedtime: bedtime,
+        sleep_impact: caffeineAtBedtime > 100 ? "high" : caffeineAtBedtime > 50 ? "moderate" : caffeineAtBedtime > 20 ? "mild" : "minimal",
+      });
+    }
+
     return {
       caffeineAtBedtime: Math.round(caffeineAtBedtime),
       nearZeroTime,

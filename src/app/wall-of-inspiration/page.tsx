@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 
 // Content items for the wall of inspiration
 const inspirationItems = [
@@ -124,9 +125,46 @@ const categories = [
   { id: "story", label: "Stories" },
 ];
 
+// Google Trends chart component
+function GoogleTrendsChart({ keyword, title }: { keyword: string; title: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const chartId = `trends-chart-${keyword.replace(/\s+/g, '-')}`;
+
+  useEffect(() => {
+    // Only render chart when the trends library is loaded
+    if (typeof window !== 'undefined' && (window as unknown as { trends?: { embed?: { renderExploreWidget: (type: string, config: object, options: object) => void } } }).trends?.embed) {
+      setIsLoaded(true);
+      const trends = (window as unknown as { trends: { embed: { renderExploreWidget: (type: string, config: object, options: object) => void } } }).trends;
+      trends.embed.renderExploreWidget(
+        "TIMESERIES",
+        {
+          comparisonItem: [{ keyword, geo: "US", time: "2004-01-01 2025-12-11" }],
+          category: 0,
+          property: "",
+        },
+        {
+          exploreQuery: `date=all&geo=US&q=${encodeURIComponent(keyword)}&hl=en`,
+          guestPath: "https://trends.google.com:443/trends/embed/",
+        }
+      );
+    }
+  }, [keyword, isLoaded]);
+
+  return (
+    <div className="bg-gray-50 rounded-xl p-6">
+      <h3 className="font-semibold text-[#37352F] mb-4 text-xl">{title}</h3>
+      <p className="text-gray-600 text-sm mb-4">
+        Google search interest in &quot;{keyword}&quot; over time (US)
+      </p>
+      <div id={chartId} className="w-full min-h-[300px]" />
+    </div>
+  );
+}
+
 export default function WallOfInspirationPage() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [trendsLoaded, setTrendsLoaded] = useState(false);
 
   // Close lightbox on Escape key
   useEffect(() => {
@@ -147,6 +185,12 @@ export default function WallOfInspirationPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Google Trends Script */}
+      <Script
+        src="https://ssl.gstatic.com/trends_nrtr/4284_RC01/embed_loader.js"
+        onLoad={() => setTrendsLoaded(true)}
+      />
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
@@ -175,13 +219,41 @@ export default function WallOfInspirationPage() {
 
       {/* Main Content */}
       <main className="pt-24 pb-16 px-4 sm:px-6 md:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#37352F] mb-4">
             Wall of Inspiration
           </h1>
-          <p className="text-gray-600 mb-8 text-lg max-w-2xl">
+          <p className="text-gray-600 mb-8 text-lg">
             Experts, media coverage, and real stories from people who&apos;ve quit or reduced their caffeine intake. Click any image to enlarge.
           </p>
+
+          {/* Google Trends Section */}
+          <div className="mb-12 space-y-6">
+            <h2 className="text-2xl font-semibold text-[#37352F]">The Trend is Clear</h2>
+            <p className="text-gray-600">
+              More and more people are searching for ways to quit or reduce caffeine. See the data for yourself.
+            </p>
+
+            {trendsLoaded && (
+              <div className="space-y-6">
+                <GoogleTrendsChart keyword="decaf" title="Interest in 'Decaf'" />
+                <GoogleTrendsChart keyword="quit caffeine" title="Interest in 'Quit Caffeine'" />
+              </div>
+            )}
+
+            {!trendsLoaded && (
+              <div className="space-y-6">
+                <div className="bg-gray-50 rounded-xl p-6 animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                  <div className="h-[300px] bg-gray-200 rounded"></div>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-6 animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                  <div className="h-[300px] bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2 mb-8">
@@ -200,12 +272,12 @@ export default function WallOfInspirationPage() {
             ))}
           </div>
 
-          {/* Masonry Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          {/* Single Column Layout - One Item Per Row */}
+          <div className="space-y-8">
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                className="break-inside-avoid bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
               >
                 {/* Clickable Image */}
                 <button
@@ -215,22 +287,22 @@ export default function WallOfInspirationPage() {
                   <Image
                     src={item.image}
                     alt={item.title}
-                    width={600}
-                    height={400}
+                    width={800}
+                    height={500}
                     className="w-full h-auto"
                   />
                 </button>
 
                 {/* Content */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-[#37352F] mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{item.description}</p>
+                <div className="p-6">
+                  <h3 className="font-semibold text-[#37352F] text-xl mb-2">{item.title}</h3>
+                  <p className="text-gray-600 mb-4">{item.description}</p>
                   {item.link && (
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#F67E62] text-sm font-medium hover:underline"
+                      className="inline-block px-4 py-2 bg-[#F67E62] text-white rounded-lg font-medium hover:bg-[#e56d4f] transition-colors"
                     >
                       {item.linkText}
                     </a>

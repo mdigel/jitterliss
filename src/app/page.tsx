@@ -93,40 +93,40 @@ const ToolIcon = ({ type, className = "w-8 h-8" }: { type: ToolIconType; classNa
   }
 };
 
-const tools: { title: string; description: string; href: string; icon: ToolIconType }[] = [
+const tools: { title: string; subtitle: string; href: string; icon: ToolIconType }[] = [
   {
     title: "Caffeine Half-Life Calculator",
-    description: "See how much caffeine is in your system at any time",
+    subtitle: "See how much caffeine is in your system at any time",
     href: "/caffeinehalflifecalculator",
     icon: "bed",
   },
   {
     title: "Quit Caffeine Calculator",
-    description: "Get a personalized 14-day plan to quit without withdrawal",
+    subtitle: "Get a personalized 14-day plan to quit without withdrawal",
     href: "/quitcaffeinecalculator",
     icon: "peace",
   },
   {
     title: "Make a Bet",
-    description: "Pick a friend. Set a deadline and a price. If you fail to quit, you pay.",
+    subtitle: "Pick a friend. Set a deadline and a price. If you fail to quit, you pay.",
     href: "/bet",
     icon: "money",
   },
   {
     title: "Ultimate Caffeine List",
-    description: "Every caffeinated product sorted by mg",
+    subtitle: "Every caffeinated product sorted by mg",
     href: "/caffeinelist",
     icon: "list",
   },
   {
     title: "5 Reasons to Quit or Detox",
-    description: "Motivators to change your caffeine habits",
+    subtitle: "Motivators to change your caffeine habits",
     href: "/motivators",
     icon: "brain",
   },
   {
     title: "Insane Health Benefits of Decaf Coffee",
-    description: "According to Peter Attia, Huberman, BioLayne, and other studies",
+    subtitle: "According to Peter Attia, Huberman, BioLayne, and other studies",
     href: "/decaf-benefits",
     icon: "heart",
   },
@@ -164,7 +164,15 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* Coffee Banner */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-[#F67E62] text-white text-center py-2 px-4">
-        <Link href="/coffee" className="text-sm sm:text-base hover:underline">
+        <Link
+          href="/coffee"
+          onClick={() => {
+            posthog.capture("coffee_banner_clicked", {
+              source: "homepage_banner",
+            });
+          }}
+          className="text-sm sm:text-base hover:underline"
+        >
           Looking for Jitterliss coffee? →
         </Link>
       </div>
@@ -217,20 +225,20 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/30" />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6 md:px-8 py-24">
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6 md:px-8 pt-32 sm:pt-36 pb-24">
           <p className="text-lg sm:text-xl text-white/80 mb-2 drop-shadow-lg">
             Tools to help you
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-12 drop-shadow-lg">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 sm:mb-10 drop-shadow-lg">
             Quit or Detox Caffeine
           </h1>
 
           {/* Tool Cards Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 items-stretch">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
             {tools.map((tool) => (
               <div key={tool.href} className="relative group h-full">
                 {/* Orange shadow layer */}
-                <div className="absolute inset-0 bg-[#F67E62] rounded-lg sm:rounded-xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+                <div className="absolute inset-0 bg-[#F67E62] rounded-2xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
                 {/* Main card */}
                 <Link
                   href={tool.href}
@@ -240,16 +248,25 @@ export default function Home() {
                       tool_href: tool.href,
                     });
                   }}
-                  className="relative flex flex-col h-full bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-lg sm:rounded-xl p-3 sm:p-6 text-left transition-all duration-200"
+                  className="relative flex flex-col h-full bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-5 text-left transition-all duration-200"
                 >
-                  <div className="mb-2 sm:mb-4 text-[#37352F] group-hover:text-white transition-colors">
-                    <ToolIcon type={tool.icon} className="w-6 h-6 sm:w-8 sm:h-8" />
+                  <div className="flex justify-between items-start mb-3 sm:mb-4">
+                    {/* Icon */}
+                    <div className="text-[#37352F]">
+                      <ToolIcon type={tool.icon} className="w-6 h-6 sm:w-8 sm:h-8" />
+                    </div>
+                    {/* Carrot */}
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-gray-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
                   </div>
-                  <h3 className="text-sm sm:text-lg font-semibold text-[#37352F] group-hover:text-white mb-1 sm:mb-2 transition-colors leading-tight">
+                  {/* Title */}
+                  <h3 className="text-sm sm:text-base font-semibold text-[#37352F] leading-tight">
                     {tool.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 group-hover:text-white/90 transition-colors leading-snug">
-                    {tool.description}
+                  {/* Subtitle */}
+                  <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
+                    {tool.subtitle}
                   </p>
                 </Link>
               </div>
@@ -257,23 +274,24 @@ export default function Home() {
           </div>
 
           {/* Wall of Inspiration - Full Width Card */}
-          <div className="mt-3 sm:mt-8">
-            <div className="relative group">
-              {/* Orange shadow layer */}
-              <div className="absolute inset-0 bg-[#F67E62] rounded-lg sm:rounded-xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
-              {/* Main card */}
-              <Link
-                href="/wall-of-inspiration"
-                onClick={() => {
-                  posthog.capture("tool_card_clicked", {
-                    tool_name: "Wall of Inspiration",
-                    tool_href: "/wall-of-inspiration",
-                  });
-                }}
-                className="relative flex items-center justify-center gap-2 sm:gap-4 bg-white/90 backdrop-blur-sm hover:bg-[#F67E62] rounded-lg sm:rounded-xl py-3 px-3 sm:py-4 sm:px-6 transition-all duration-200"
-              >
+          <div className="mt-4 sm:mt-6 relative group">
+            {/* Orange shadow layer */}
+            <div className="absolute inset-0 bg-[#F67E62] rounded-2xl translate-x-1.5 translate-y-1.5 sm:translate-x-2 sm:translate-y-2 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+            {/* Main card */}
+            <Link
+              href="/wall-of-inspiration"
+              onClick={() => {
+                posthog.capture("tool_card_clicked", {
+                  tool_name: "Wall of Inspiration",
+                  tool_href: "/wall-of-inspiration",
+                });
+              }}
+              className="relative flex items-center gap-3 sm:gap-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-5 transition-all duration-200"
+            >
+              {/* Icon */}
+              <div className="text-[#37352F] flex-shrink-0">
                 <svg
-                  className="w-6 h-6 sm:w-8 sm:h-8 text-[#37352F] group-hover:text-white transition-colors flex-shrink-0"
+                  className="w-6 h-6 sm:w-8 sm:h-8"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -283,16 +301,20 @@ export default function Home() {
                 >
                   <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                <div className="text-left">
-                  <h3 className="text-sm sm:text-lg font-semibold text-[#37352F] group-hover:text-white transition-colors">
-                    Wall of Inspiration
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 group-hover:text-white/90 transition-colors">
-                    Random things that might inspire you to quit/detox
-                  </p>
-                </div>
-              </Link>
-            </div>
+              </div>
+              <div className="text-left flex-1">
+                <h3 className="text-sm sm:text-base font-semibold text-[#37352F] leading-tight">
+                  Wall of Inspiration
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
+                  Random things that might inspire you to quit/detox
+                </p>
+              </div>
+              {/* Carrot */}
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-gray-400 transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -335,12 +357,12 @@ export default function Home() {
             People found it useful. In total, we generated over $20k from this coffee business.
             </p>
 
-            <p>
+            <p className="hidden sm:block">
               Here were some text messages from our early participates:
             </p>
 
-            {/* Testimonial Photos */}
-            <div className="my-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Testimonial Photos - Desktop Only */}
+            <div className="hidden sm:grid my-8 grid-cols-3 gap-4">
               <button
                 onClick={() => {
                   setLightboxImage("/Post 3.6.23 - 4.png");
@@ -440,6 +462,12 @@ export default function Home() {
           <div className="mt-8 text-center">
             <Link
               href="/quitcaffeinecalculator"
+              onClick={() => {
+                posthog.capture("about_section_cta_clicked", {
+                  cta_text: "Quit Caffeine Calculator",
+                  source: "about_section",
+                });
+              }}
               className="inline-block px-8 py-4 bg-[#F67E62] text-white font-semibold rounded-lg hover:bg-[#e56d4f] transition-colors text-lg"
             >
               Quit Caffeine Calculator →

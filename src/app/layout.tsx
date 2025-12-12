@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { PostHogProvider } from "./providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,10 +48,10 @@ export const metadata: Metadata = {
     description: "Free tools and resources to help you quit or reduce caffeine without withdrawal symptoms. Personalized taper plans, caffeine calculators, and expert guidance.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/social.png",
         width: 1200,
         height: 630,
-        alt: "Jitterliss - Quit Caffeine Without the Pain",
+        alt: "Jitterliss - Tools to help you Quit or Detox Caffeine",
       },
     ],
   },
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Jitterliss - Your Homebase for Quitting Caffeine",
     description: "Free tools and resources to help you quit or reduce caffeine without withdrawal symptoms.",
-    images: ["/og-image.png"],
+    images: ["/social.png"],
   },
   robots: {
     index: true,
@@ -126,7 +127,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} antialiased`}
       >
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
   );

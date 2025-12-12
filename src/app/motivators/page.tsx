@@ -196,6 +196,12 @@ export default function MotivatorsPage() {
             </p>
             <Link
               href="/quitcaffeinecalculator"
+              onClick={() => {
+                posthog.capture("motivators_cta_clicked", {
+                  active_tab: activeTab,
+                  cta_type: activeTab === "quit" ? "quit_plan" : "detox_plan",
+                });
+              }}
               className="inline-block px-8 py-4 bg-[#F67E62] text-white font-semibold rounded-lg hover:bg-[#e56d4f] transition-colors"
             >
               {ctaButton}
